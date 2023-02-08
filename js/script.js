@@ -25,6 +25,103 @@ wordBtnEl.addEventListener('click', function(){
 
 });
 
+// ESERCIZIO 2 - Pari/Dispari
+
+// 1. Richiamare Elemento HTML "Pulsante Pari/Dispari" e creare evento "click"
+const pdBtnEl = document.getElementById('pari-dispari');
+pdBtnEl.addEventListener('click', function(){
+
+  // 2. Chiedere scelta a Utente con prompt e controllo che parola sia effetivamente 'pari' o 'dispari'
+  let choiseUser = prompt('Scegli Pari o Dispari ;)');
+
+  // 2.1 - Trasformo la scelta inserita in minuscolo per controllo
+  choiseUser = choiseUser.toLocaleLowerCase();
+  document.getElementById('scelta').innerHTML = `La TUA scelta e' ${choiseUser} `;
+  console.log(`La scelta dell'Utente e': ` + choiseUser);
+
+  // 3. Chiedere a Utente di inserire un Numero da 1 a 5 (controllo se Utente inserisce un Numero Valido)
+  let numberUser;
+  
+  do{
+    
+    numberUser = prompt('Inserisci un numero compreso tra 1 e 5 ;)');
+
+  } while(numberUser<=0 || numberUser>=6)
+
+  document.getElementById('numero-utente').innerHTML = `Il TUO numero e': ${numberUser}`;
+  console.log(`Il numero scelto dall'Utente e': ` + numberUser);
+  
+  // 4. Generare un Numero Random da 1 a 5 per il PC con funzione
+  let numberPC = numberRandomBetweenValuesIncluse(1,5);
+  document.getElementById('numero-pc').innerHTML = `Il numero del PC e': ${numberPC}`;
+  console.log(`Il numero scelto per il PC e': ` + numberPC);
+
+  // 5. Invocare Funzione per capire se la Somma e' un Numero Pari o Dispari
+  const result = sumEvenOrOdd(numberUser,numberPC);
+  document.getElementById('somma').innerHTML = `La somma dei numeri e': ${result}`;
+  console.log(`La somma dei numeri e': ` + result);
+
+  // 6. Stampare Messaggio con risultato per Utente
+  if (result === choiseUser){
+    document.getElementById('risultato').innerHTML = `<h3>Hai Vinto! :)</h3>`;
+  } else {
+    document.getElementById('risultato').innerHTML = `<h3>Hai Perso! :(</h3>`;
+  }
+
+});
+
+// ***********************
+// FUNZIONE "sumEvenOrOdd"
+// **********************
+
+function sumEvenOrOdd (num1,num2){
+  const sum = num1 + num2;
+
+  if (isEven(sum) === true){
+    return 'pari';
+  }
+
+  if (isOdd(sum) === true){
+    return 'dispari';
+  }
+}
+
+// ***********************
+// FUNZIONE "numberRandom"
+// **********************
+
+function numberRandomBetweenValuesIncluse(min,max){
+
+  const number = Math.floor(Math.random() * (max - min + 1) + min);
+
+  return number;
+}
+
+// ***********************
+// FUNZIONE "isEven"
+// **********************
+
+function isEven (num){
+  const rem = num % 2;
+  if (rem === 0){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// ***********************
+// FUNZIONE "isOdd"
+// **********************
+
+function isOdd (num){
+  const rem = num % 2;
+  if (rem === 1){
+    return true;
+  } else {
+    return false;
+  }
+}
 
 
 // ***********************
@@ -33,17 +130,17 @@ wordBtnEl.addEventListener('click', function(){
 
 function isPalindrome(word){
 
-  // 3. Creo un Array contenente (come elementi) i Caratteri della Parola inserita
+  // 1. Creo un Array contenente (come elementi) i Caratteri della Parola inserita
   let listCharsWord = [];
   listCharsWord = word.split('');
   // console.log(listCharsWord);
 
-  // 4. Creo un Array contenente la Lista di Caratteri invertita
+  // 2. Creo un Array contenente la Lista di Caratteri invertita
   let listCharsWordReverse = [];
   listCharsWordReverse = listCharsWord.reverse();
   // console.log(listCharsWordReverse);
 
-  // 5. Confronto i due Array con un ciclo e se ogni elemento risulta uguale, allora la Parola e' PALINDROMA
+  // 3. Confronto i due Array con un ciclo e se ogni elemento risulta uguale, allora la Parola e' PALINDROMA
 
   //Creo un contantore per tenere traccia dei controlli avvenuti con successo
   let countTrue = 0;
