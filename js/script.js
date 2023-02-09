@@ -32,21 +32,27 @@ const pdBtnEl = document.getElementById('pari-dispari');
 pdBtnEl.addEventListener('click', function(){
 
   // 2. Chiedere scelta a Utente con prompt e controllo che parola sia effetivamente 'pari' o 'dispari'
-  let choiseUser = prompt('Scegli Pari o Dispari ;)');
+  let choiseUser;
 
-  // 2.1 - Trasformo la scelta inserita in minuscolo per controllo
-  choiseUser = choiseUser.toLocaleLowerCase();
-  document.getElementById('scelta').innerHTML = `La TUA scelta e' ${choiseUser} `;
-  console.log(`La scelta dell'Utente e': ` + choiseUser);
+  do {
+
+    choiseUser = prompt('Scegli Pari o Dispari ;)');
+
+    // 2.1 - Trasformo la scelta inserita in minuscolo per controllo
+    choiseUser = choiseUser.toLocaleLowerCase();
+    document.getElementById('scelta').innerHTML = `La TUA scelta e' ${choiseUser} `;
+    console.log(`La scelta dell'Utente e': ` + choiseUser);
+
+  } while (choiseUser!=='pari' && choiseUser!=='dispari');
 
   // 3. Chiedere a Utente di inserire un Numero da 1 a 5 (controllo se Utente inserisce un Numero Valido)
   let numberUser;
   
   do{
     
-    numberUser = prompt('Inserisci un numero compreso tra 1 e 5 ;)');
+    numberUser = parseInt(prompt('Inserisci un numero compreso tra 1 e 5 ;)'));
 
-  } while(numberUser<=0 || numberUser>=6)
+  } while(isNaN(numberUser) || numberUser<=0 || numberUser>=6)
 
   document.getElementById('numero-utente').innerHTML = `Il TUO numero e': ${numberUser}`;
   console.log(`Il numero scelto dall'Utente e': ` + numberUser);
@@ -70,12 +76,17 @@ pdBtnEl.addEventListener('click', function(){
 
 });
 
+
+// ****************************************************************************************************************
+
 // ***********************
 // FUNZIONE "sumEvenOrOdd"
 // **********************
 
 function sumEvenOrOdd (num1,num2){
   const sum = num1 + num2;
+
+  // console.log('La somma dei numeri è:' + sum);
 
   if (isEven(sum) === true){
     return 'pari';
@@ -130,37 +141,57 @@ function isOdd (num){
 
 function isPalindrome(word){
 
-  // 1. Creo un Array contenente (come elementi) i Caratteri della Parola inserita
-  let listCharsWord = [];
-  listCharsWord = word.split('');
+  // 1* Creo un Array contenente (come elementi) i Caratteri della Parola inserita
+  // let listCharsWord = [];
+  // listCharsWord = word.split('');
   // console.log(listCharsWord);
 
-  // 2. Creo un Array contenente la Lista di Caratteri invertita
-  let listCharsWordReverse = [];
-  listCharsWordReverse = listCharsWord.reverse();
+  // 2* Creo un Array contenente la Lista di Caratteri invertita
+  // let listCharsWordReverse = [];
+  // listCharsWordReverse = listCharsWord.reverse();
+
+  // 1. Uso la funzione wordReverse per ricevere la Parola Invertita
+  const wordRev = wordReverse(word);
   // console.log(listCharsWordReverse);
 
-  // 3. Confronto i due Array con un ciclo e se ogni elemento risulta uguale, allora la Parola e' PALINDROMA
+  // 2. Confronto i due Array con un ciclo e se ogni elemento risulta uguale, allora la Parola e' PALINDROMA
 
   //Creo un contantore per tenere traccia dei controlli avvenuti con successo
   let countTrue = 0;
 
-  for (let i=0; i < listCharsWordReverse.length; i++){
+  for (let i=0; i < wordRev.length; i++){
 
     // console.log(`Char Word: ` + word[i]);
     // console.log(`Char Word Reverse: ` + listCharsWordReverse[i]);
 
-    if (word[i]===listCharsWordReverse[i]){
+    if (word.charAt(i) === wordRev.charAt(i)){
       countTrue++;
     } 
 
   }
 
-  if (countTrue === listCharsWordReverse.length){
+  // 3. Valore di Ritorno della Funzione 
+  if (countTrue === wordRev.length){
     return true;
   } else {
     return false;
   }
 
+}
+
+// ***********************
+// FUNZIONE "wordReverse"
+// **********************
+
+function wordReverse(word){
+
+  let wordReverse = '';
+
+  // Creo Ciclo Invertito per leggere parola al contrario e creare Parola Invertita
+  for (i = word.length-1; i>=0; i--){
+    wordReverse += word.charAt(i);
+  }
+
+  return wordReverse;
 }
 
